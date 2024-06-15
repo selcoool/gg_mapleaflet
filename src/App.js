@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useEffect, useState } from 'react';
+// import Dc from './khoang';
+import CurrentVisitLocationMap from './CurrentVisitLocationMap.js';
+import Khoang from './Khoang.js';
+import GetCities from './GetCities.js';
+import Wards from './Wards.js';
+import Addresses from './Addresses.js';
 
 function App() {
+  
+
+  // console.log('REACT_YOUR_GEONAMES_USERNAME',process.env.REACT_APP_GEONAMES_USERNAME_USERNAME)
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {/* <h1>My MapTiler Map</h1>
+     <MapComponent /> */}
+
+     <CurrentVisitLocationMap/>
+     {/* <Khoang/> */}
+
+     {/* <GetCities/> */}
+
+     {/* <Addresses/> */}
+
+     
+     {/* <Wards/> */}
+     
+
+
+
     </div>
   );
 }
