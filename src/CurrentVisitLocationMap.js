@@ -5,12 +5,12 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 // Fix marker icon issue
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+// delete L.Icon.Default.prototype._getIconUrl;
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+//   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+//   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+// });
 
 const CurrentVisitLocationMap = () => {
   const [position, setPosition] = useState(null);
@@ -25,6 +25,8 @@ const CurrentVisitLocationMap = () => {
     const getCurrentLocation = async () => {
       try {
         const position = await new Promise((resolve, reject) => {
+
+          console.log('navigator',navigator)
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
         setPosition([position.coords.latitude, position.coords.longitude]);
@@ -42,6 +44,8 @@ const CurrentVisitLocationMap = () => {
       try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
         const data = await response.json();
+
+        console.log('data.display_name',data.display_name)
         setAddress(data.display_name);
       } catch (error) {
         console.error("Error getting address from coordinates:", error);
@@ -49,6 +53,7 @@ const CurrentVisitLocationMap = () => {
     };
     
     if (position) {
+      console.log('data.position',position)
       const [latitude, longitude] = position;
       getAddressFromCoordinates(latitude, longitude);
     }
@@ -106,23 +111,23 @@ const CurrentVisitLocationMap = () => {
           />
         
         {position && selectedPosition && (
-          <Polyline positions={[position, selectedPosition]}>
-            <Tooltip direction="center" offset={[0, -20]}>
+          <Polyline positions={[position, selectedPosition]}  color="red">
+            <Popup direction="center" offset={[0, -20]}>
               {`Khoảng cách: ${distance} km`}
-            </Tooltip>
+            </Popup>
           </Polyline>
         )}
 
           <Marker position={position}>
-            <Popup>
+            <Tooltip>
               Vị trí của bạn
-            </Popup>
+            </Tooltip>
           </Marker>
           {position && selectedPosition && (
           <Marker position={selectedPosition}>
-            <Popup>
+            <Tooltip>
               Vị trí của của bạn đã tiềm
-            </Popup>
+            </Tooltip>
           </Marker>
           )}
         </MapContainer>
