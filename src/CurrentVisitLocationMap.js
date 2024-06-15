@@ -73,9 +73,15 @@ const CurrentVisitLocationMap = () => {
 
 
   const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    if (!searchTerm) {
+      setSelectedPosition(null);
+      setPolylinePositions([]);
+      return;
+    }
+  
     const geocoder = L.Control.Geocoder.nominatim();
-    geocoder.geocode(e.target.value, (results) => {
-      console.log('sâsas',results )
+    geocoder.geocode(searchTerm, (results) => {
       if (results && results.length > 0) {
         const latlng = [results[0].center.lat, results[0].center.lng];
         setSelectedPosition(latlng);
